@@ -22,7 +22,13 @@ import {
   X,
   Zap,
 } from 'lucide-react';
+import { ContainerScroll } from '@/components/ui/container-scroll-animation';
+import { Loader } from '@/components/ui/loader';
+import { ScrollProgress } from '@/components/ui/scroll-progress';
+import { useScrollReveal } from '@/hooks/use-scroll-reveal';
 import logo from '@/assets/logo/aws_logo.jpeg';
+import awsCloudImageHorizontal from '@/assets/images/aws_cloud_horizontal.png';
+import awsCloudImageVertical from '@/assets/images/aws_cloud_vertical.png';
 import amanKumarHappyPhoto from '@/assets/team/aman-kumar-happy.png';
 import amberAryaPhoto from '@/assets/team/amber-arya.png';
 import amitKumarPhoto from '@/assets/team/amit-kumar.jpeg';
@@ -120,7 +126,7 @@ const resources = {
 };
 
 const socialLinks = [
-  { name: 'WhatsApp', label: 'WHATSAPP COMMUNITY', description: 'Updates, discussions and announcements for the whole builder community.', href: 'https://chat.whatsapp.com/IxB1h8LnZvI9zBXFcznewG', icon: MessageCircle },
+  { name: 'WhatsApp', label: 'WHATSAPP COMMUNITY', description: 'Updates, discussions and announcements for the whole builder community.', href: 'https://chat.whatsapp.com/Ku8BAWKIpWuHsR4bcQ4uXY', icon: MessageCircle },
   { name: 'Meetup', label: 'MEETUP', description: 'Register for upcoming events and keep the chapter calendar close.', href: 'https://www.meetup.com/aws-sbg-at-government-engineering-college-buxar/', icon: Users },
   { name: 'LinkedIn', label: 'LINKEDIN', description: 'Follow AWS SBG GEC Buxar for professional updates and opportunities.', href: 'https://www.linkedin.com/company/aws-student-builder-group-gec-buxar', icon: Linkedin },
   { name: 'Instagram', label: 'INSTAGRAM', description: 'Event highlights, community activities and behind-the-scenes content.', href: 'https://www.instagram.com/aws.sbg.gecbuxar/', icon: Instagram },
@@ -153,18 +159,22 @@ function App() {
   const [eventTab, setEventTab] = useState<'UPCOMING' | 'PAST'>('UPCOMING');
   const [expandedMember, setExpandedMember] = useState<string | null>(null);
   const [legalDocument, setLegalDocument] = useState<LegalDocument | null>(null);
+  const [loading, setLoading] = useState(true);
 
   const closeMenu = () => setMenuOpen(false);
+  useScrollReveal(!loading);
 
   return (
-    <div className="site-shell">
+    <div className={loading ? 'site-shell app-loading' : 'site-shell'}>
+      <ScrollProgress />
+      {loading && <Loader onComplete={() => setLoading(false)} />}
       <div className="announcement"><span>/// AWS SBG GEC BUXAR ///</span><b>LEARN · BUILD · COLLABORATE · GROW</b><a href="#community">JOIN THE COMMUNITY <ArrowUpRight size={14} /></a></div>
       <header className="navbar">
         <a className="brand" href="#top" onClick={closeMenu}><img src={logo} alt="AWS SBG GEC Buxar logo" /><span>AWS SBG <i>·</i> GEC BUXAR</span></a>
         <button className="menu-toggle" aria-label="Toggle menu" onClick={() => setMenuOpen(!menuOpen)}>{menuOpen ? <X /> : <Menu />}</button>
         <nav className={menuOpen ? 'nav-links open' : 'nav-links'}>
           {['ABOUT', 'EVENTS', 'TEAM', 'PROJECTS', 'RESOURCES', 'COMMUNITY'].map((item) => <a key={item} href={`#${item.toLowerCase()}`} onClick={closeMenu}>{item}</a>)}
-          <a className="nav-cta" href="https://chat.whatsapp.com/IxB1h8LnZvI9zBXFcznewG" target="_blank" rel="noreferrer" onClick={closeMenu}>JOIN US <ArrowUpRight size={15} /></a>
+          <a className="nav-cta" href="https://chat.whatsapp.com/Ku8BAWKIpWuHsR4bcQ4uXY" target="_blank" rel="noreferrer" onClick={closeMenu}>JOIN US <ArrowUpRight size={15} /></a>
         </nav>
       </header>
 
@@ -175,8 +185,8 @@ function App() {
             <h1>ENTER THE<br /><em>CLOUD<span>_</span></em></h1>
             <p className="hero-subtitle">AWS STUDENT BUILDER GROUP<br /><strong>GOVERNMENT ENGINEERING COLLEGE, BUXAR</strong></p>
             <p className="hero-description">A place to learn AWS, explore cloud technologies, build real-world projects and grow through workshops, events and hackathons.</p>
-            <div className="hero-actions"><a className="button button-primary" href="https://chat.whatsapp.com/IxB1h8LnZvI9zBXFcznewG" target="_blank" rel="noreferrer">JOIN THE COMMUNITY <ArrowUpRight size={17} /></a><a className="button button-ghost" href="#events">EXPLORE EVENTS <ChevronRight size={17} /></a></div>
-            <div className="hero-footnote"><span>CHAPTER 2026–2027</span><span>FREE TO JOIN</span><span>BUXAR, BIHAR</span></div>
+            <div className="hero-actions"><a className="button button-primary" href="https://chat.whatsapp.com/Ku8BAWKIpWuHsR4bcQ4uXY" target="_blank" rel="noreferrer">JOIN THE COMMUNITY <ArrowUpRight size={17} /></a><a className="button button-ghost" href="#events">EXPLORE EVENTS <ChevronRight size={17} /></a></div>
+            <div className="hero-footnote"><span>ESTABLISHED · 21 AUGUST 2026</span><span>CHAPTER 2026–2027</span><span>FREE TO JOIN</span><span>BUXAR, BIHAR</span></div>
           </div>
           <div className="hero-visual" aria-label="Cloud technology network illustration">
             <div className="orbit orbit-one" /><div className="orbit orbit-two" /><div className="orbit orbit-three" />
@@ -190,9 +200,40 @@ function App() {
         <section id="about" className="about section-pad section-dark">
           <div className="section-intro"><SectionLabel>01 / ABOUT THE COMMUNITY</SectionLabel><h2>EVERY BUILDER<br />IS <em>WELCOME<span>_</span></em></h2></div>
           <div className="about-content"><div className="about-lead"><p>AWS Student Builder Group at Government Engineering College, Buxar is a student-led technology community focused on practical learning, collaboration and real-world technology building.</p><p>The community gives students a place to explore AWS and cloud technologies, learn from mentors, build projects and connect with fellow student developers.</p></div><div className="principles">{[['LEARN', 'Explore AWS, cloud and modern technologies.'], ['BUILD', 'Turn ideas into practical projects.'], ['COLLABORATE', 'Work with students, mentors and communities.'], ['GROW', 'Develop technical and professional skills.']].map(([title, text], index) => <div className="principle" key={title}><span>0{index + 1}</span><div><h3>{title}</h3><p>{text}</p></div></div>)}</div></div>
+          <div className="about-facts"><div className="about-established"><SectionLabel>ESTABLISHED</SectionLabel><p className="established-date">21 AUGUST<br />2026<span>_</span></p></div><div className="about-faculty"><SectionLabel>FACULTY COORDINATORS</SectionLabel><ul className="faculty-list"><li><div><h3>Prof. Santosh Prasad</h3><span>FACULTY, CSE</span></div></li><li><div><h3>Dr. Rina Kumari</h3><span>ASSISTANT PROFESSOR &amp; HEAD, CSE</span></div></li></ul></div></div>
         </section>
 
         <section className="focus section-pad"><div className="section-intro split-intro"><div><SectionLabel>02 / THE SKILL STACK</SectionLabel><h2>WHAT WE BUILD<br />& <em>LEARN<span>_</span></em></h2></div><p>From your first cloud console login to production-ready systems, there is always a next thing to discover.</p></div><div className="focus-grid">{focusAreas.map(([number, title, text, Icon]) => <div className="focus-card" key={title}><span className="card-number">{number}</span><Icon className="card-icon" size={25} /><h3>{title}</h3><p>{text}</p><ArrowUpRight className="card-arrow" size={18} /></div>)}</div></section>
+
+        <section className="showcase-scroll bg-[#05070a] overflow-hidden">
+          <ContainerScroll
+            titleComponent={
+              <>
+                <div className="mb-6 inline-flex items-center gap-3 text-[#ffd43b] font-mono text-[10px] tracking-[.14em] uppercase"><span className="w-1.5 h-1.5 rounded-full bg-[#ffd43b] shadow-[0_0_14px_#ffd43b]" /> THE BUILDER JOURNEY</div>
+                <h1 className="text-4xl md:text-5xl font-extrabold text-white leading-tight" style={{ letterSpacing: '-.04em' }}>
+                  FROM FIRST LOGIN TO<br />
+                  <span className="block mt-2 text-5xl md:text-[5.5rem] leading-none font-black bg-clip-text text-transparent bg-gradient-to-r from-[#FFD43B] via-white to-[#7DA9E8]">
+                    REAL CLOUD BUILDS<span className="text-[#FFD43B]">_</span>
+                  </span>
+                </h1>
+                <p className="mt-7 font-mono text-[10px] md:text-xs tracking-[.18em] text-[#aab4c3] uppercase">Workshops · Hands-on Labs · Hackathons — Keep Scrolling</p>
+              </>
+            }
+          >
+            <div className="relative h-full w-full">
+              <picture>
+                <source media="(min-width: 768px)" srcSet={awsCloudImageHorizontal} />
+                <img
+                  src={awsCloudImageVertical}
+                  alt="AWS cloud builder visualization"
+                  className="absolute inset-0 block h-full w-full rounded-xl object-cover object-center"
+                  draggable={false}
+                  loading="lazy"
+                />
+              </picture>
+            </div>
+          </ContainerScroll>
+        </section>
 
         <section className="why section-pad section-navy"><div className="section-intro split-intro"><div><SectionLabel>03 / THE ADVANTAGE</SectionLabel><h2>WHY JOIN<br /><em>AWS SBG?<span>_</span></em></h2></div><div className="stat-callout"><strong>01</strong><span>COMMUNITY<br />OVER COMPETITION</span></div></div><div className="why-grid">{['HANDS-ON LEARNING', 'AWS & CLOUD', 'PROJECTS', 'HACKATHONS', 'COMMUNITY', 'CAREER GROWTH'].map((title, i) => <div className="why-item" key={title}><span>0{i + 1}</span><h3>{title}</h3><p>{['Learn by doing, not just watching.', 'Build practical cloud skills that travel.', 'Create solutions with a real purpose.', 'Build, compete and collaborate.', 'Meet motivated student builders.', 'Grow technical and professional confidence.'][i]}</p></div>)}</div></section>
 
@@ -200,7 +241,7 @@ function App() {
 
         <section id="team" className="team section-pad"><div className="section-intro split-intro"><div><SectionLabel>05 / CORE BUILDERS</SectionLabel><h2>MEET THE<br /><em>BUILDERS<span>_</span></em></h2></div><p>One leader. Five core leads. One mission.<br />Every role is an invitation to take ownership.</p></div><div className="team-grid">{team.map((member) => <article className="team-card" key={member.name}><div className="portrait" style={{ '--portrait-accent': member.accent } as CSSProperties}><img src={member.photo} alt={`${member.name}, ${member.role}`} /><div className="portrait-tag">CORE<br />BUILDER</div></div><div className="team-card-content"><div className="team-role">{member.shortRole}</div><h3>{member.name}</h3><button className="responsibilities-toggle" onClick={() => setExpandedMember(expandedMember === member.name ? null : member.name)}>{expandedMember === member.name ? 'HIDE ROLE' : 'VIEW ROLE'} <ChevronDown size={15} className={expandedMember === member.name ? 'rotated' : ''} /></button>{expandedMember === member.name && <ul>{member.responsibilities.map((item) => <li key={item}>{item}</li>)}</ul>}<div className="team-social"><a href={member.linkedin} target="_blank" rel="noreferrer" aria-label={`${member.name} LinkedIn profile`}><Linkedin size={16} /> LINKEDIN PROFILE</a></div></div></article>)}</div><div className="team-principle"><span className="principle-symbol">+</span><div><SectionLabel>TEAM PRINCIPLE</SectionLabel><h3>ONE TEAM. ONE COMMUNITY.</h3><p>These roles represent areas of ownership, not strict boundaries. Anyone can propose a session, prepare a PPT, contribute to documentation or suggest an event. Collaboration over hierarchy.</p></div></div></section>
 
-        <section id="projects" className="build-lab section-pad section-navy"><div className="section-intro split-intro"><div><SectionLabel>06 / BUILD LAB</SectionLabel><h2>IDEAS INTO<br /><em>REALITY<span>_</span></em></h2></div><p>Collaborative builds are on the way. Bring a problem, a teammate or simply your curiosity.</p></div><div className="project-coming"><div className="project-icon"><Terminal size={30} /></div><div><div className="project-kicker">PROJECTS COMING SOON</div><h3>THE NEXT BUILD STARTS WITH YOU.</h3><p>The AWS SBG GEC Buxar community is preparing projects and collaborative builds.</p></div><a href="https://chat.whatsapp.com/IxB1h8LnZvI9zBXFcznewG" target="_blank" rel="noreferrer" className="button button-primary">START A CONVERSATION <ArrowUpRight size={17} /></a></div><div className="project-tags">{['CLOUD PROJECTS', 'AI PROJECTS', 'WEB APPS', 'SERVERLESS', 'DEVOPS', 'OPEN SOURCE'].map((tag) => <span key={tag}>{tag}</span>)}</div></section>
+        <section id="projects" className="build-lab section-pad section-navy"><div className="section-intro split-intro"><div><SectionLabel>06 / BUILD LAB</SectionLabel><h2>IDEAS INTO<br /><em>REALITY<span>_</span></em></h2></div><p>Collaborative builds are on the way. Bring a problem, a teammate or simply your curiosity.</p></div><div className="project-coming"><div className="project-icon"><Terminal size={30} /></div><div><div className="project-kicker">PROJECTS COMING SOON</div><h3>THE NEXT BUILD STARTS WITH YOU.</h3><p>The AWS SBG GEC Buxar community is preparing projects and collaborative builds.</p></div><a href="https://chat.whatsapp.com/Ku8BAWKIpWuHsR4bcQ4uXY" target="_blank" rel="noreferrer" className="button button-primary">START A CONVERSATION <ArrowUpRight size={17} /></a></div><div className="project-tags">{['CLOUD PROJECTS', 'AI PROJECTS', 'WEB APPS', 'SERVERLESS', 'DEVOPS', 'OPEN SOURCE'].map((tag) => <span key={tag}>{tag}</span>)}</div></section>
 
         <section id="resources" className="resources section-pad section-dark"><div className="section-intro split-intro"><div><SectionLabel>07 / LEARNING RESOURCES</SectionLabel><h2>YOUR CLOUD<br /><em>SKILL TREE<span>_</span></em></h2></div><p>Start with the foundations. Follow the questions. Use official AWS learning resources as the collection grows.</p></div><div className="resource-grid">{Object.entries(resources).map(([level, items], index) => <div className="resource-column" key={level}><div className="resource-level"><span>0{index + 1}</span><h3>{level}</h3></div>{items.map((item, i) => <a href="https://aws.amazon.com/training/" target="_blank" rel="noreferrer" key={item}><span>{String(i + 1).padStart(2, '0')}</span>{item}<ExternalLink size={14} /></a>)}</div>)}</div></section>
 
@@ -210,7 +251,7 @@ function App() {
 
         <section className="enquiry section-pad section-dark"><div><SectionLabel>09 / HAVE AN IDEA?</SectionLabel><h2>LET'S BUILD<br /><em>TOGETHER<span>_</span></em></h2><p>Reach out for chapter questions, speaking opportunities, partnerships, workshops or a project you want to start.</p></div><div className="enquiry-action"><div className="enquiry-kicker">COMMUNITY DESK</div><a className="enquiry-email" href="mailto:aws.sbg.gec.buxar@gmail.com"><Mail size={19} />aws.sbg.gec.buxar@gmail.com</a><p>Prefer a structured request? Share your details through our enquiry form and the core team will get back to you.</p><a className="button button-primary" href="https://forms.gle/cD5aHAwxmERtGnyd8" target="_blank" rel="noreferrer">OPEN ENQUIRY FORM <ArrowUpRight size={17} /></a></div></section>
 
-        <section className="join-cta section-pad"><div className="cta-mark"><Cloud size={34} /></div><SectionLabel>THE NEXT CHAPTER IS OPEN</SectionLabel><h2>READY TO ENTER<br />THE <em>CLOUD?<span>_</span></em></h2><p>Whether you’re writing your first line of code or already building projects, there’s a place for you at AWS SBG GEC Buxar.</p><div className="hero-actions"><a className="button button-primary" href="https://chat.whatsapp.com/IxB1h8LnZvI9zBXFcznewG" target="_blank" rel="noreferrer">JOIN WHATSAPP <ArrowUpRight size={17} /></a><a className="button button-ghost" href="#events">EXPLORE EVENTS <ChevronRight size={17} /></a></div><div className="cta-foot">FREE TO JOIN <span>·</span> FREE TO LEARN <span>·</span> FREE TO BUILD</div></section>
+        <section className="join-cta section-pad"><div className="cta-mark"><Cloud size={34} /></div><SectionLabel>THE NEXT CHAPTER IS OPEN</SectionLabel><h2>READY TO ENTER<br />THE <em>CLOUD?<span>_</span></em></h2><p>Whether you’re writing your first line of code or already building projects, there’s a place for you at AWS SBG GEC Buxar.</p><div className="hero-actions"><a className="button button-primary" href="https://chat.whatsapp.com/Ku8BAWKIpWuHsR4bcQ4uXY" target="_blank" rel="noreferrer">JOIN WHATSAPP <ArrowUpRight size={17} /></a><a className="button button-ghost" href="#events">EXPLORE EVENTS <ChevronRight size={17} /></a></div><div className="cta-foot">FREE TO JOIN <span>·</span> FREE TO LEARN <span>·</span> FREE TO BUILD</div></section>
       </main>
 
       <footer className="footer"><div className="footer-main"><div className="footer-brand"><a className="brand" href="#top"><img src={logo} alt="AWS SBG GEC Buxar logo" /><span>AWS SBG <i>·</i> GEC BUXAR</span></a><p>Government Engineering College, Buxar</p><a className="footer-email" href="mailto:aws.sbg.gec.buxar@gmail.com">aws.sbg.gec.buxar@gmail.com</a><strong>LEARN. BUILD. GROW.</strong></div><div className="footer-column"><h4>NAVIGATION</h4><a href="#about">About</a><a href="#events">Events</a><a href="#team">Team</a><a href="#projects">Projects</a><a href="#resources">Resources</a><a href="#community">Community</a></div><div className="footer-column"><h4>CONNECT</h4><a href={socialLinks[0].href} target="_blank" rel="noreferrer">WhatsApp <ArrowUpRight size={13} /></a><a href={socialLinks[1].href} target="_blank" rel="noreferrer">Meetup <ArrowUpRight size={13} /></a><a href={socialLinks[2].href} target="_blank" rel="noreferrer">LinkedIn <ArrowUpRight size={13} /></a><a href={socialLinks[3].href} target="_blank" rel="noreferrer">Instagram <ArrowUpRight size={13} /></a><a href="mailto:aws.sbg.gec.buxar@gmail.com">Email <ArrowUpRight size={13} /></a></div><div className="footer-column"><h4>EXPLORE</h4><a href="https://google.com" target="_blank" rel="noreferrer">Blog <ArrowUpRight size={13} /></a><a href="https://forms.gle/cD5aHAwxmERtGnyd8" target="_blank" rel="noreferrer">Enquiry Form <ArrowUpRight size={13} /></a><button onClick={() => setLegalDocument('disclaimer')}>Disclaimer</button><button onClick={() => setLegalDocument('privacy')}>Privacy Policy</button><button onClick={() => setLegalDocument('terms')}>Terms & Conditions</button></div></div><div className="footer-bottom"><span>© 2026 AWS SBG GEC BUXAR</span><span>GOVERNMENT ENGINEERING COLLEGE, BUXAR</span><span>CHAPTER 2026–2027</span></div></footer>

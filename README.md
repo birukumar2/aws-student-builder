@@ -10,6 +10,19 @@ The goal is not just to conduct events, but to build a **sustainable student tec
 
 ---
 
+## 📅 Established
+
+**21 August 2026**
+
+---
+
+## 🎓 Faculty Coordinators
+
+* **Prof. Santosh Prasad** — Faculty, CSE
+* **Dr. Rina Kumari** — Assistant Professor & Head, CSE
+
+---
+
 ## 🚀 About the Project
 
 The AWS Student Builder Group (AWS SBG) — Government Engineering College, Buxar is a student-led technology community focused on helping students explore modern technologies, build real-world projects, participate in hackathons, and grow through collaboration.
@@ -407,7 +420,7 @@ npm run preview
 
 Join the AWS SBG GEC Buxar community:
 
-https://chat.whatsapp.com/IxB1h8LnZvI9zBXFcznewG
+https://chat.whatsapp.com/Ku8BAWKIpWuHsR4bcQ4uXY
 
 ### 🎫 Meetup
 
