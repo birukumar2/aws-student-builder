@@ -10,6 +10,9 @@ body { margin: 0; min-width: 320px; background: #05070a; }
 a { color: inherit; text-decoration: none; }
 button { font: inherit; }
 .site-shell { overflow: hidden; background: #f5f7fb; color: #0b1f3a; }
+.cursor-glow { position: fixed; left: 0; top: 0; z-index: 30; pointer-events: none; border-radius: 50%; will-change: transform; }
+.cursor-glow-layer { position: absolute; inset: 0; border-radius: 50%; filter: blur(10px); transition: opacity .45s ease; }
+.cursor-glow-ring { position: absolute; left: 50%; top: 50%; border-radius: 50%; border: 1.5px solid #ffd43b; box-shadow: 0 0 12px rgba(255,212,59,.55), inset 0 0 8px rgba(255,212,59,.35); }
 .announcement { min-height: 32px; padding: 7px 5vw; display: flex; align-items: center; justify-content: space-between; gap: 20px; background: #ffd43b; color: #05070a; font: 500 10px 'DM Mono', monospace; letter-spacing: .1em; }
 .announcement a { display: flex; gap: 6px; align-items: center; font-weight: 700; }
 .announcement b { font-weight: 500; }
@@ -92,3 +95,35 @@ h2 { font-size: clamp(45px, 6vw, 82px); margin-bottom: 0; font-weight: 800; }.sp
 .cursor-blink { animation: cursor-blink 1.05s step-end infinite; }
 @keyframes cursor-blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 .app-loading .hero-copy, .app-loading .hero-visual { animation-play-state: paused !important; }
+
+@media (pointer: fine) {
+  .site-shell,
+  .site-shell a,
+  .site-shell button,
+  .site-shell input,
+  .site-shell textarea,
+  .site-shell select,
+  .site-shell label {
+    cursor: none !important;
+  }
+}
+
+/* ============ CURSOR EMOTES — cute reactions ============ */
+.cursor-emote {
+  position: fixed;
+  width: 40px;
+  height: 40px;
+  margin-left: -20px;
+  margin-top: -20px;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+.cursor-emote-emoji {
+  display: block;
+  line-height: 1;
+  filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.35));
+  transform: translateZ(0);
+}
+

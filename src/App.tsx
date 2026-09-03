@@ -1,4 +1,4 @@
-import { useState, type CSSProperties } from 'react';
+import { useEffect, useState, type CSSProperties } from 'react';
 import {
   ArrowUpRight,
   ChevronDown,
@@ -23,12 +23,15 @@ import {
   Zap,
 } from 'lucide-react';
 import { ContainerScroll } from '@/components/ui/container-scroll-animation';
+import { CloudCursor } from '@/components/ui/cloud-cursor';
+import { CursorGlow } from '@/components/ui/cursor-glow';
+import { ImageHover } from '@/components/ui/image-reveal';
+import { SmoothCursor } from '@/components/ui/smooth-cursor';
 import { Loader } from '@/components/ui/loader';
 import { ScrollProgress } from '@/components/ui/scroll-progress';
 import { useScrollReveal } from '@/hooks/use-scroll-reveal';
 import logo from '@/assets/logo/aws_logo.jpeg';
 import awsCloudImageHorizontal from '@/assets/images/aws_cloud_horizontal.png';
-import awsCloudImageVertical from '@/assets/images/aws_cloud_vertical.png';
 import amanKumarHappyPhoto from '@/assets/team/aman-kumar-happy.png';
 import amberAryaPhoto from '@/assets/team/amber-arya.png';
 import amitKumarPhoto from '@/assets/team/amit-kumar.jpeg';
@@ -160,6 +163,15 @@ function App() {
   const [expandedMember, setExpandedMember] = useState<string | null>(null);
   const [legalDocument, setLegalDocument] = useState<LegalDocument | null>(null);
   const [loading, setLoading] = useState(true);
+  const [isFinePointer, setIsFinePointer] = useState(true);
+
+  useEffect(() => {
+    const mq = window.matchMedia('(pointer: fine)');
+    const update = () => setIsFinePointer(mq.matches);
+    update();
+    mq.addEventListener('change', update);
+    return () => mq.removeEventListener('change', update);
+  }, []);
 
   const closeMenu = () => setMenuOpen(false);
   useScrollReveal(!loading);
@@ -167,6 +179,8 @@ function App() {
   return (
     <div className={loading ? 'site-shell app-loading' : 'site-shell'}>
       <ScrollProgress />
+      {isFinePointer && <SmoothCursor cursor={<CloudCursor />} />}
+      {isFinePointer && <CursorGlow />}
       {loading && <Loader onComplete={() => setLoading(false)} />}
       <div className="announcement"><span>/// AWS SBG GEC BUXAR ///</span><b>LEARN · BUILD · COLLABORATE · GROW</b><a href="#community">JOIN THE COMMUNITY <ArrowUpRight size={14} /></a></div>
       <header className="navbar">
@@ -209,29 +223,22 @@ function App() {
           <ContainerScroll
             titleComponent={
               <>
-                <div className="mb-6 inline-flex items-center gap-3 text-[#ffd43b] font-mono text-[10px] tracking-[.14em] uppercase"><span className="w-1.5 h-1.5 rounded-full bg-[#ffd43b] shadow-[0_0_14px_#ffd43b]" /> THE BUILDER JOURNEY</div>
-                <h1 className="text-4xl md:text-5xl font-extrabold text-white leading-tight" style={{ letterSpacing: '-.04em' }}>
+                <div className="mb-4 md:mb-6 inline-flex items-center gap-3 text-[#ffd43b] font-mono text-[9px] md:text-[10px] tracking-[.14em] uppercase"><span className="w-1.5 h-1.5 rounded-full bg-[#ffd43b] shadow-[0_0_14px_#ffd43b]" /> THE BUILDER JOURNEY</div>
+                <h1 className="text-[2rem] sm:text-4xl md:text-5xl font-extrabold text-white leading-tight px-2" style={{ letterSpacing: '-.04em' }}>
                   FROM FIRST LOGIN TO<br />
-                  <span className="block mt-2 text-5xl md:text-[5.5rem] leading-none font-black bg-clip-text text-transparent bg-gradient-to-r from-[#FFD43B] via-white to-[#7DA9E8]">
+                  <span className="block mt-2 text-[clamp(2.2rem,10vw,5.5rem)] leading-none font-black bg-clip-text text-transparent bg-gradient-to-r from-[#FFD43B] via-white to-[#7DA9E8]">
                     REAL CLOUD BUILDS<span className="text-[#FFD43B]">_</span>
                   </span>
                 </h1>
-                <p className="mt-7 font-mono text-[10px] md:text-xs tracking-[.18em] text-[#aab4c3] uppercase">Workshops · Hands-on Labs · Hackathons — Keep Scrolling</p>
+                <p className="mt-5 md:mt-7 font-mono text-[9px] md:text-xs tracking-[.18em] text-[#aab4c3] uppercase">Workshops · Hands-on Labs · Hackathons — Keep Scrolling</p>
               </>
             }
           >
-            <div className="relative h-full w-full">
-              <picture>
-                <source media="(min-width: 768px)" srcSet={awsCloudImageHorizontal} />
-                <img
-                  src={awsCloudImageVertical}
-                  alt="AWS cloud builder visualization"
-                  className="absolute inset-0 block h-full w-full rounded-xl object-cover object-center"
-                  draggable={false}
-                  loading="lazy"
-                />
-              </picture>
-            </div>
+            <ImageHover
+              src={awsCloudImageHorizontal}
+              alt="AWS cloud builder visualization"
+              className="max-w-4xl"
+            />
           </ContainerScroll>
         </section>
 
