@@ -38,6 +38,14 @@ import amitKumarPhoto from '@/assets/team/amit-kumar.jpeg';
 import biruKumarPhoto from '@/assets/team/biru-kumar.png';
 import amanjeetKumarPhoto from '@/assets/team/amanjeet-kumar.jpeg';
 import viratRajPhoto from '@/assets/team/virat-raj.jpeg';
+import pastEventPhoto01 from '@/assets/events/past-event-01.jpeg';
+import pastEventPhoto02 from '@/assets/events/past-event-02.jpeg';
+import pastEventPhoto03 from '@/assets/events/past-event-03.jpeg';
+import pastEventPhoto04 from '@/assets/events/past-event-04.jpeg';
+import pastEventPhoto05 from '@/assets/events/past-event-05.jpeg';
+import pastEventPhoto06 from '@/assets/events/past-event-06.jpeg';
+import pastEventPhoto07 from '@/assets/events/past-event-07.jpeg';
+import pastEventPhoto08 from '@/assets/events/past-event-08.jpeg';
 
 type TeamMember = {
   name: string;
@@ -127,6 +135,17 @@ const resources = {
   Intermediate: ['Lambda', 'VPC', 'APIs', 'Databases', 'Serverless'],
   Advanced: ['Cloud Architecture', 'DevOps', 'Cloud Security', 'System Design', 'AI / ML'],
 };
+
+const pastEventPhotos = [
+  { src: pastEventPhoto01, alt: 'AWS SBG team holding the Student Builder Group banner' },
+  { src: pastEventPhoto02, alt: 'AWS SBG members and students gathered with the banner' },
+  { src: pastEventPhoto03, alt: 'AWS SBG event recognition moment' },
+  { src: pastEventPhoto04, alt: 'AWS SBG core team group photo' },
+  { src: pastEventPhoto05, alt: 'Students attending an AWS SBG session' },
+  { src: pastEventPhoto06, alt: 'AWS SBG presentation during the event' },
+  { src: pastEventPhoto07, alt: 'Faculty members at the AWS SBG event' },
+  { src: pastEventPhoto08, alt: 'AWS SBG student team at the event desk' },
+];
 
 const socialLinks = [
   { name: 'WhatsApp', label: 'WHATSAPP COMMUNITY', description: 'Updates, discussions and announcements for the whole builder community.', href: 'https://chat.whatsapp.com/Ku8BAWKIpWuHsR4bcQ4uXY', icon: MessageCircle },
@@ -244,7 +263,7 @@ function App() {
 
         <section className="why section-pad section-navy"><div className="section-intro split-intro"><div><SectionLabel>03 / THE ADVANTAGE</SectionLabel><h2>WHY JOIN<br /><em>AWS SBG?<span>_</span></em></h2></div><div className="stat-callout"><strong>01</strong><span>COMMUNITY<br />OVER COMPETITION</span></div></div><div className="why-grid">{['HANDS-ON LEARNING', 'AWS & CLOUD', 'PROJECTS', 'HACKATHONS', 'COMMUNITY', 'CAREER GROWTH'].map((title, i) => <div className="why-item" key={title}><span>0{i + 1}</span><h3>{title}</h3><p>{['Learn by doing, not just watching.', 'Build practical cloud skills that travel.', 'Create solutions with a real purpose.', 'Build, compete and collaborate.', 'Meet motivated student builders.', 'Grow technical and professional confidence.'][i]}</p></div>)}</div></section>
 
-        <section id="events" className="events section-pad"><div className="section-intro split-intro"><div><SectionLabel>04 / EVENT LOG</SectionLabel><h2>BUILD. LEARN.<br /><em>REPEAT<span>_</span></em></h2></div><div className="tabs"><button className={eventTab === 'UPCOMING' ? 'active' : ''} onClick={() => setEventTab('UPCOMING')}>UPCOMING</button><button className={eventTab === 'PAST' ? 'active' : ''} onClick={() => setEventTab('PAST')}>PAST</button></div></div><div className="event-empty"><div className="empty-mark"><Sparkles size={25} /></div><h3>{eventTab === 'UPCOMING' ? 'NO UPCOMING EVENTS ANNOUNCED YET.' : 'THE ARCHIVE IS JUST GETTING STARTED.'}</h3><p>Stay connected for upcoming workshops, technical sessions and community activities.</p><a href="https://www.meetup.com/aws-sbg-at-government-engineering-college-buxar/" target="_blank" rel="noreferrer" className="text-link">VIEW MEETUP <ArrowUpRight size={16} /></a><div className="free-badge">₹0 · FREE REGISTRATION</div></div></section>
+        <section id="events" className="events section-pad"><div className="section-intro split-intro"><div><SectionLabel>04 / EVENT LOG</SectionLabel><h2>BUILD. LEARN.<br /><em>REPEAT<span>_</span></em></h2></div><div className="tabs"><button className={eventTab === 'UPCOMING' ? 'active' : ''} onClick={() => setEventTab('UPCOMING')}>UPCOMING</button><button className={eventTab === 'PAST' ? 'active' : ''} onClick={() => setEventTab('PAST')}>PAST</button></div></div>{eventTab === 'PAST' ? <><div className="past-event-summary"><h3>THE ARCHIVE IS JUST GETTING STARTED.</h3><p>Stay connected for upcoming workshops, technical sessions and community activities.</p><a href="https://www.meetup.com/aws-sbg-at-government-engineering-college-buxar/" target="_blank" rel="noreferrer" className="text-link">VIEW MEETUP <ArrowUpRight size={16} /></a><div className="free-badge">₹0 · FREE REGISTRATION</div></div><div className="past-event-gallery" aria-label="Past event photo gallery">{pastEventPhotos.map((photo, index) => <figure className={index === 2 ? 'past-event-photo portrait-photo' : 'past-event-photo'} key={photo.src}><img src={photo.src} alt={photo.alt} loading="lazy" /></figure>)}</div></> : <div className="event-empty"><div className="empty-mark"><Sparkles size={25} /></div><h3>NO UPCOMING EVENTS ANNOUNCED YET.</h3><p>Stay connected for upcoming workshops, technical sessions and community activities.</p><a href="https://www.meetup.com/aws-sbg-at-government-engineering-college-buxar/" target="_blank" rel="noreferrer" className="text-link">VIEW MEETUP <ArrowUpRight size={16} /></a><div className="free-badge">₹0 · FREE REGISTRATION</div></div>}</section>
 
         <section id="team" className="team section-pad"><div className="section-intro split-intro"><div><SectionLabel>05 / CORE BUILDERS</SectionLabel><h2>MEET THE<br /><em>BUILDERS<span>_</span></em></h2></div><p>One leader. Five core leads. One mission.<br />Every role is an invitation to take ownership.</p></div><div className="team-grid">{team.map((member) => <article className="team-card" key={member.name}><div className="portrait" style={{ '--portrait-accent': member.accent } as CSSProperties}><img src={member.photo} alt={`${member.name}, ${member.role}`} /><div className="portrait-tag">CORE<br />BUILDER</div></div><div className="team-card-content"><div className="team-role">{member.shortRole}</div><h3>{member.name}</h3><button className="responsibilities-toggle" onClick={() => setExpandedMember(expandedMember === member.name ? null : member.name)}>{expandedMember === member.name ? 'HIDE ROLE' : 'VIEW ROLE'} <ChevronDown size={15} className={expandedMember === member.name ? 'rotated' : ''} /></button>{expandedMember === member.name && <ul>{member.responsibilities.map((item) => <li key={item}>{item}</li>)}</ul>}<div className="team-social"><a href={member.linkedin} target="_blank" rel="noreferrer" aria-label={`${member.name} LinkedIn profile`}><Linkedin size={16} /> LINKEDIN PROFILE</a></div></div></article>)}</div><div className="team-principle"><span className="principle-symbol">+</span><div><SectionLabel>TEAM PRINCIPLE</SectionLabel><h3>ONE TEAM. ONE COMMUNITY.</h3><p>These roles represent areas of ownership, not strict boundaries. Anyone can propose a session, prepare a PPT, contribute to documentation or suggest an event. Collaboration over hierarchy.</p></div></div></section>
 
